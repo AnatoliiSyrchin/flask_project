@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+User #{{ user_id }}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <h1>{{ user_name }}</h1>
+        <div>
+            {% if 'users' in request.referrer %}
+                <a href="{{ url_for('users_app.list') }}">Back to users list</a><br>
+            {%endif%}
+            {% if 'articles' in request.referrer %}
+                <a href="{{ request.referrer }}">Back to article</a><br>
+            {%endif%}
+        </div>
+    </div>
+</div>
+{% endblock %}

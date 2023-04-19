@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Article #{{ article_title }}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <h1>{{ article_title }}</h1>
+        <p>{{ article_text }}</p>
+        Author: <a href="{{ url_for('users_app.details', user_id=article_author_id) }}">{{article_author_name}}</a>
+        <div>
+            <a href="{{ url_for('articles_app.list') }}">Back to articles list</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
