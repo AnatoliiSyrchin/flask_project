@@ -1,7 +1,14 @@
-from flask import Flask, request, g
+from flask import Flask
 
-app = Flask(__name__)
+from blog.users.views import users_app
+from blog.articles.views import articles_app
 
-@app.route('/')
-def index():
-    return 'Hello world!'
+
+def create_app() -> Flask:
+    app = Flask(__name__)
+    register_blueprints(app)
+    return app
+
+def register_blueprints(app: Flask):
+    app.register_blueprint(users_app)
+    app.register_blueprint(articles_app)
