@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from flask_login import login_required
 from werkzeug.exceptions import NotFound
 from blog.models import User
 
@@ -41,6 +42,7 @@ def articles_list():
 
 
 @articles_app.route("/<int:article_id>/", endpoint="details")
+@login_required
 def article_details(article_id: int):
     try:
         article = ARTICLES[article_id]

@@ -7,16 +7,22 @@ User #{{ user.id }}
 {% block body %}
 <div class="row">
     <div class="col">
-        <h1>{{ user.username }}</h1>
-        {% if user.is_staff %}
+        {% if user.username != current_user.username %}
+            <div class="alert alert-danger" role="alert">
+                This is not your details!
+            </div>
+        {% else %}
+            <h1>{{ user.username }}</h1>
+            {% if user.is_staff %}
             <span class="badge bg-secondary">staff</span>
+            {% endif %}
         {% endif %}
         <div>
             {% if 'users' in request.referrer %}
-                <a href="{{ url_for('users_app.list') }}">Back to users list</a><br>
+            <a href="{{ url_for('users_app.list') }}">Back to users list</a><br>
             {%endif%}
             {% if 'articles' in request.referrer %}
-                <a href="{{ request.referrer }}">Back to article</a><br>
+            <a href="{{ request.referrer }}">Back to article</a><br>
             {%endif%}
         </div>
     </div>
