@@ -7,7 +7,14 @@ Index Page
 {% block body %}
 <div class="row">
     <div class="col">
-        <h1>Hello index page!</h1>
+        <h1>
+            Hello
+            {% if current_user.is_authenticated %}
+               {{ current_user.username }}
+            {% else %}
+                anon
+            {% endif %}
+        </h1>
     </div>
 </div>
 {% endblock %}
