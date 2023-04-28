@@ -1,8 +1,8 @@
 """add email field to user model
 
-Revision ID: 29a0cf685102
-Revises: 
-Create Date: 2023-04-27 00:26:49.876721
+Revision ID: 7ea165988aa4
+Revises: 3116a983d319
+Create Date: 2023-04-27 23:53:06.089337
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '29a0cf685102'
-down_revision = None
+revision = '7ea165988aa4'
+down_revision = '3116a983d319'
 branch_labels = None
 depends_on = None
 

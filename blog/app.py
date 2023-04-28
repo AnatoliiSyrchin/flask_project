@@ -11,7 +11,8 @@ from blog.auth.view import auth_app, login_manager
 def create_app() -> Flask:
     app = Flask(__name__)
 
-    cfg_name = os.environ.get("CONFIG_NAME")# or "ProductionConfig"
+    cfg_name = os.environ.get("CONFIG_NAME") or "BaseConfig"
+    # cfg_name = os.environ.get("CONFIG_NAME") or "ProductionConfig"
     app.config.from_object(f"blog.config.{cfg_name}")
     # app.config.from_pyfile('config.py')
     # app.config.from_object(Config)
@@ -21,10 +22,10 @@ def create_app() -> Flask:
     # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
-    migrate = Migrate(app, db, compare_type=True)
     login_manager.init_app(app)
 
     register_blueprints(app)
+    migrate = Migrate(app, db, compare_type=True)
 
     return app
 
