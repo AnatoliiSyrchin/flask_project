@@ -35,7 +35,7 @@ def login():
     if user is None:
         return render_template('auth/login.html', error=f'no user {username!r} found')
     if not check_password_hash(user.password, password):
-        return render_template('auth/login.html', error=f'wrong password')
+        return render_template('auth/login.html', error=f'wrong password {user.password} {password}')
 
     login_user(user)
     return redirect(url_for('index'))

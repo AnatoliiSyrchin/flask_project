@@ -4,10 +4,12 @@ from flask_login import UserMixin
 
 
 class User(db.Model, UserMixin):
-    id = db.Column(Integer, primary_key=True)
-    username = db.Column(String(256), unique=True, nullable=False)
-    password = db.Column(String(256), unique=True, nullable=False)
-    is_staff = db.Column(Boolean, nullable=False, default=False)
+    id = Column(Integer, primary_key=True)
+    email = Column(String(255), nullable=False, default="", server_default="")
+    username = Column(String(256), unique=True, nullable=False)
+    password = Column(String(256), unique=True, nullable=False)
+    is_staff = Column(Boolean, nullable=False, default=False)
+
 
     def __repr__(self):
         return f'User {self.username}'
