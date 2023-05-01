@@ -7,7 +7,8 @@ Create Date: 2023-04-27 23:52:44.135140
 """
 from alembic import op
 import sqlalchemy as sa
-from werkzeug.security import generate_password_hash
+from blog.models import User
+from blog.models.datebase import db
 
 
 # revision identifiers, used by Alembic.
@@ -22,21 +23,17 @@ def upgrade():
     user_table = op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=256), nullable=False),
-    sa.Column('password', sa.String(length=256), nullable=False),
     sa.Column('is_staff', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('password'),
     sa.UniqueConstraint('username')
     )
     # ### end Alembic commands ###
-    password = generate_password_hash('111')
     op.bulk_insert(
         user_table,
         [
-            {'id':1,'username':'admin', 'password':password, 'is_staff':True},
+            {'id':1,'username':'admin', 'is_staff':True},
         ]
     )
-
 
 
 def downgrade():

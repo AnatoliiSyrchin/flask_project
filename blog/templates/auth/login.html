@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% from 'macro/formhelpers.html' import render_field %}
+
 
 {% block title %}
     Login as
@@ -11,27 +13,16 @@
             {{ error }}
         </div>
     {% endif %}
-    <form method="post">
-        <div class="mb-3">
-          <label  for="input-username" class="form-label">Login as (username):</label>
-          <input class="form-control"
-          aria-describedby="username" 
-          type="text"
-          id="input-username1"
-          name="username"
-          placeholder="guest"
-          required>
-        </div>
-        <div class="mb-3">
-          <label for="input-password" class="form-label">Password:</label>
-          <input class="form-control"
-          aria-describedby="password"
-          type="password" 
-          id="input-password"
-          name="password"
-          placeholder="*****"
-          required>
-        </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-      </form>
+    <form method="POST">
+      {{ form.csrf_token() }}
+
+      {% for field in ['username', 'password'] %}
+	      {{ render_field(form[field]) }}
+	    {% endfor %}
+      
+	    <div>
+        {{ form.submit(class='btn btn-primary btn-lg') }}
+      </div>
+
+    </form>
 {% endblock %}
