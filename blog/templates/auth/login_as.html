@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Login as
+{% endblock %}
+
+{% block body %}
+    <h1>Login as user:</h1>
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+    <form method="post">
+        <div class="mb-3">
+          <label  for="input-username" class="form-label">Login as (username):</label>
+          <input class="form-control"
+          aria-describedby="username" 
+          type="text"
+          id="input-username1"
+          name="username"
+          placeholder="guest"
+          required>
+        </div>
+        <div class="mb-3">
+          <label for="input-password" class="form-label">Password:</label>
+          <input class="form-control"
+          aria-describedby="password"
+          type="password" 
+          id="input-password"
+          name="password"
+          placeholder="*****"
+          required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+{% endblock %}
