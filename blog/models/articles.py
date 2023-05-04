@@ -12,4 +12,4 @@ class Article(db.Model):
     created_at = Column(DateTime, default=datetime.utcnow())
     updated_at = Column(DateTime, default=datetime.utcnow(), onupdate=datetime.utcnow())
 
-    author = relationship('Author', back_populates='article')
+    author = relationship('Author', back_populates='articles')

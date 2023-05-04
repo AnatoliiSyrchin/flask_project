@@ -8,11 +8,16 @@ Author #{{ author.id }}
 <div class="row">
     <div class="col">
         <h1>{{ author.user.username }}</h1>
-            {% if author.user.is_staff %}
+        {% if author.user.is_staff %}
             <span class="badge bg-secondary">staff</span>
-            {% endif %}
+        {% endif %}
+        Articles: <br>
+        {% for article in author.articles%}
+            <a href="{{ url_for('articles_app.details', article_id=article.id) }}"> {{ article.title }} </a><br>
+        {% endfor %}
+
         <div>
-            {% if 'authors' in request.referrer %}
+            {% if 'authors' in request.referrer %} 
             <a href="{{ url_for('authors_app.list') }}">Back to authors list</a><br>
             {%endif%}
             {% if 'articles' in request.referrer %}
