@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('article',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=50), nullable=False),
-    sa.Column('Text', sa.Text(), nullable=False),
+    sa.Column('text', sa.Text(), nullable=False),
     sa.Column('author_id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),

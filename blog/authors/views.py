@@ -22,4 +22,4 @@ def author_details(author_id: int):
         raise NotFound(f"User #{author_id} doesn't exist!")
     
 
-    return render_template('author/details.html', author_id=author_id, author=author)
+    return render_template('authors/details.html', author_id=author_id, author=author)
