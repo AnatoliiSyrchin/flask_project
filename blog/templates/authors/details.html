@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Author #{{ author.id }}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <h1>{{ author.user.username }}</h1>
+            {% if author.user.is_staff %}
+            <span class="badge bg-secondary">staff</span>
+            {% endif %}
+        <div>
+            {% if 'authors' in request.referrer %}
+            <a href="{{ url_for('authors_app.list') }}">Back to authors list</a><br>
+            {%endif%}
+            {% if 'articles' in request.referrer %}
+            <a href="{{ request.referrer }}">Back to article</a><br>
+            {%endif%}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Authors list
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <h1>Authors</h1>
+        <div>
+            <ul>
+                {% for author in authors %}
+                <li>
+                    <a href="{{ url_for('authors_app.details', author_id=author.id) }}">
+                        {{ author.user.username -}}
+                    </a>
+                    {% if author.user.is_staff %}
+                        <span class="badge bg-secondary">staff</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
