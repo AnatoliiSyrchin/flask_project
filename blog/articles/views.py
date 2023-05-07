@@ -1,61 +1,47 @@
-from flask import Blueprint, render_template
-from flask_login import login_required
+from flask import Blueprint, render_template, request, redirect, url_for
+from flask_login import login_required, current_user
 from werkzeug.exceptions import NotFound
-from blog.models import User
+from blog.models import Article, User, Author
+from blog.forms.article import CreateArticleForm
+from blog.models.datebase import db
 
 articles_app = Blueprint("articles_app", __name__, url_prefix="/articles", static_folder='../static')
-
-ARTICLES = {
-    1: {
-        'title': 'Flask',
-        'text': 'Flask article text ____________\
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit,\
-            sed do eiusmod tempor incididunt ut labore et dolore magna\
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation\
-            ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        'author_id': 1
-    },
-    2: {
-        'title': 'Django',
-        'text': 'Django article text ____________\
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit,\
-            sed do eiusmod tempor incididunt ut labore et dolore magna\
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation\
-            ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        'author_id': 2
-    },
-    3: {
-        'title': 'JSON:API',
-        'text': 'JSON:API article text ____________\
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit,\
-            sed do eiusmod tempor incididunt ut labore et dolore magna\
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation\
-            ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        'author_id': 3
-    },
-}
 
 
 @articles_app.route("/", endpoint="list")
 def articles_list():
-    return render_template("articles/list.html", articles=ARTICLES) 
-
+    articles = Article.query.all()
+    return render_template("articles/list.html", articles=articles) 
 
 @articles_app.route("/<int:article_id>/", endpoint="details")
 @login_required
 def article_details(article_id: int):
-    try:
-        article = ARTICLES[article_id]
-    except KeyError:
+    article = Article.query.filter_by(id=article_id).one_or_none()
+    if not article:
         raise NotFound(f"Article #{article_id} doesn't exist!")
 
-    users = User.query.all()
-    user = User.query.filter_by(id=article['author_id']).one_or_none()
+    return render_template('articles/details.html', article=article)
 
-    return render_template(
-        'articles/details.html',
-        article_title=article['title'],
-        article_text=article['text'],
-        article_author_id=user.id if user else None,
-        article_author_name=user.username if user else None,
-    )
+@articles_app.route('/create', methods=['GET', 'POST'], endpoint='create')
+@login_required
+def create_article():
+    form = CreateArticleForm(request.form)
+    user = User.query.filter_by(id=current_user.id).one_or_none()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        if not user.author:
+            author = Author(user_id=user.id)
+            db.session.add(author)
+            db.session.commit()
+            print('author created')
+        article = Article(title=form.title.data, text=form.text.data, author_id=user.author.id)
+        db.session.add(article)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            current_app.logger.exception("Could not create a new article!")
+            error = "Could not create article!"
+        else:
+            return redirect(url_for("articles_app.details", article_id=article.id))
+
+    return render_template('articles/create.html', form=form, error=error)
