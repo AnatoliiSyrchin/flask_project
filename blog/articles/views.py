@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, current_app
 from flask_login import login_required, current_user
+from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import NotFound
 from blog.models import Article, User, Author
 from blog.forms.article import CreateArticleForm
@@ -27,6 +28,8 @@ def article_details(article_id: int):
 def create_article():
     form = CreateArticleForm(request.form)
     user = User.query.filter_by(id=current_user.id).one_or_none()
+
+    error = None
 
     if request.method == 'POST' and form.validate_on_submit():
         if not user.author:
