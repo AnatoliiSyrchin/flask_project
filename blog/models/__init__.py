@@ -1,5 +1,7 @@
 from blog.models.users import User
 from blog.models.authors import Author
 from blog.models.articles import Article
+from blog.models.tags import Tag
 
-__all__ = ['User', 'Author', 'Article']
+
+__all__ = ['User', 'Author', 'Article', 'Tag']

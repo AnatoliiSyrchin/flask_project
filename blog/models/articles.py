@@ -1,10 +1,20 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime, Table
 from sqlalchemy.orm import relationship
 from blog.models.datebase import db
+from blog.models.tags_articles import tag_article_association_table
+
+
+#tag_article_association_table = Table(
+#    'tag_article_association',
+#    db.metadata,
+#    Column('tag_id', Integer, ForeignKey('tags.id'), nullable=False),
+#    Column('article_id', Integer, ForeignKey('articles.id'), nullable=False),
+#)
 
 
 class Article(db.Model):
+    __tablename__ = 'articles'
     id = Column(Integer, primary_key=True)
     title = Column(String(50), unique=True, nullable=False)
     text = Column(Text, nullable=False)
@@ -13,3 +23,13 @@ class Article(db.Model):
     updated_at = Column(DateTime, default=datetime.utcnow(), onupdate=datetime.utcnow())
 
     author = relationship('Author', back_populates='articles')
+    tags = relationship('Tag', secondary=tag_article_association_table, back_populates='articles')
+
+
+#class Tag(db.Model):
+#    __tablename__ = 'tags'
+#    id = Column(Integer, primary_key=True)
+#    name = Column(String(25), nullable=False)
+#
+#    articles = relationship('Article', secondary=tag_article_association_table, back_populates='tags')
+

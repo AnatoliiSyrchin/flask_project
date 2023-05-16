@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app
 from flask_login import login_required, current_user
+from sqlalchemy.orm import joinedload
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import NotFound
-from blog.models import Article, User, Author
+from blog.models import Article, User, Author, Tag
 from blog.forms.article import CreateArticleForm
 from blog.models.datebase import db
 
@@ -17,7 +18,12 @@ def articles_list():
 @articles_app.route("/<int:article_id>/", endpoint="details")
 @login_required
 def article_details(article_id: int):
-    article = Article.query.filter_by(id=article_id).one_or_none()
+    article = Article.query.filter_by(
+        id=article_id
+        ).options(
+            joinedload(Article.tags)
+        ).one_or_none()
+    # tags = Tag.query.filter_by(id=article.id).one_ore_more()
     if not article:
         raise NotFound(f"Article #{article_id} doesn't exist!")
 
@@ -28,6 +34,7 @@ def article_details(article_id: int):
 def create_article():
     form = CreateArticleForm(request.form)
     user = User.query.filter_by(id=current_user.id).one_or_none()
+    form.tags.choices = [(tag.id, tag.name) for tag in Tag.query.order_by('name')]
 
     error = None
 
@@ -38,6 +45,10 @@ def create_article():
             db.session.commit()
             print('author created')
         article = Article(title=form.title.data, text=form.text.data, author_id=user.author.id)
+        if form.tags.data:
+            selected_tags = Tag.query.filter(Tag.id.in_(form.tags.data))
+            for tag in selected_tags:
+                article.tags.append(tag)
         db.session.add(article)
         try:
             db.session.commit()
