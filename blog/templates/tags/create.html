@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% from 'macro/formhelpers.html' import render_field %}
+
+{% block title%}
+    Create tag
+{% endblock %}
+
+{% block body %}
+    <h1>Create Tag</h1>
+    {% if error %}
+        <div class='alert alert-danger'>
+	    {{ error }}
+	</div>
+    {% endif %}
+    <form method='POST'>
+	{{ form.csrf_token() }}
+
+	{{ render_field(form['name']) }}
+
+	<div>
+	    {{ form.submit(class='btn btn-primary my-3') }}
+	</div>
+
+    </form>
+{% endblock %}
+
