@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Tags list
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <h1>Tags</h1>
+        <ul>
+            {% for tag in tags %}
+            <li>
+                <a href="{{ url_for('tags_app.details', tag_id=tag.id) }}">{{ tag.name }}</a>            
+            </li>
+            {% endfor %}
+        </ul>
+	<a href="{{ url_for('tags_app.create') }}">Create new</a>
+    </div>
+</div>
+{% endblock %}

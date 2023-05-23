@@ -7,17 +7,17 @@ from werkzeug.security import generate_password_hash
 app = create_app()
 
 
-@app.cli.command("init-db")
+@app.cli.command('init-db')
 def init_db():
     """
     Run in your terminal:
     flask init-db
     """
     db.create_all()
-    print("done!")
+    print('done!')
 
 
-@app.cli.command("create-users")
+@app.cli.command('create-users')
 def create_users():
     """
     Run in your terminal:
@@ -25,12 +25,27 @@ def create_users():
     > done! created users: <User #1 'admin'> <User #2 'james'>
     """
     from blog.models import User
-    admin = User(username="admin", password=generate_password_hash('111'), is_staff=True)
-    james = User(username="james", password=generate_password_hash('222'))
-    db.session.add(admin)
+    james = User(username='james', password=generate_password_hash('222'))
     db.session.add(james)
     db.session.commit()
-    print("done! created users:", admin, james)
+    print('done! created users:', james)
+
+
+@app.cli.command('create-tags')
+def create_tags():
+    """
+    Run in your terminal:
+    flask create-tags
+    > done! created tags: 
+    """
+
+    tags = ['flask', 'django', 'python', 'db']
+
+    from blog.models.tags import Tag
+    for tag in tags:
+        db.session.add(Tag(name=tag))
+    db.session.commit()
+    print(f'done! created tags: {", ".join(tags)}')
 
 
 @app.route('/')

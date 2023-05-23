@@ -2,11 +2,11 @@
 {% from 'macro/formhelpers.html' import render_field %}
 
 {% block title%}
-    Register
+    Create tag
 {% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <h1>Create Tag</h1>
     {% if error %}
         <div class='alert alert-danger'>
 	    {{ error }}
@@ -15,9 +15,7 @@
     <form method='POST'>
 	{{ form.csrf_token() }}
 
-	{% for field in ['title', 'text', 'tags'] %}
-	    {{ render_field(form[field]) }}
-	{% endfor %}
+	{{ render_field(form['name']) }}
 
 	<div>
 	    {{ form.submit(class='btn btn-primary my-3') }}
