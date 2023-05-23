@@ -38,8 +38,7 @@ def login():
             return render_template(
                 'auth/login.html',
                 form=form,
-                error=f"{check_password_hash(user.password, '1')}"
-                # error=f'wrong username or password {generate_password_hash(form.password.data)} {generate_password_hash("1")} {user.password}')
+                error='wrong username or password'
             )
         login_user(user)
         return redirect(url_for('index'))
