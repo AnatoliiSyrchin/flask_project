@@ -8,6 +8,7 @@ from blog.authors.views import authors_app
 from blog.tags.views import tags_app
 from blog.models.datebase import db
 from blog.auth.views import auth_app, login_manager
+from blog.admin.views import admin_app
 
 
 def create_app() -> Flask:
@@ -25,6 +26,7 @@ def create_app() -> Flask:
 
     db.init_app(app)
     login_manager.init_app(app)
+    admin_app.init_app(app)
 
     register_blueprints(app)
     migrate = Migrate(app, db, compare_type=True)

@@ -25,7 +25,6 @@
             <a href="{{ url_for('tags_app.list') }}">Back to tags list</a>
             {% endif %}
             {% if 'articles' in request.referrer %}
-            {{ request }}
             <a href="{{ url_for('articles_app.details', article_id=request.referrer.strip('/').split('/')[-1]) }}">Back to article</a>
             {% endif %}
         </div>

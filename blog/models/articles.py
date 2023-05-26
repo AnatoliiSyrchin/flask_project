@@ -25,11 +25,5 @@ class Article(db.Model):
     author = relationship('Author', back_populates='articles')
     tags = relationship('Tag', secondary=tag_article_association_table, back_populates='articles')
 
-
-#class Tag(db.Model):
-#    __tablename__ = 'tags'
-#    id = Column(Integer, primary_key=True)
-#    name = Column(String(25), nullable=False)
-#
-#    articles = relationship('Article', secondary=tag_article_association_table, back_populates='tags')
-
+    def __str__(self):
+        return self.title
