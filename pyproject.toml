@@ -10,7 +10,7 @@ packages = [{include = "flask_project"}]
 python = "^3.8"
 flask = "^2.2.2"
 flask-login = "^0.6.2"
-flask-sqlalchemy = "^3.0.3"
+flask-sqlalchemy = "^2.5.1"
 flask-migrate = "^4.0.4"
 psycopg2-binary = "^2.9.6"
 wtforms = "^3.0.1"
@@ -21,7 +21,7 @@ flask-combo-jsonapi = "1.0.6"
 combojsonapi = "1.0.5"
 apispec = "2.0.2"
 pyyaml = "5.1.1"
-
+SQLAlchemy = "1.4.46"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
