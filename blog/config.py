@@ -1,27 +1,22 @@
 import os
 
+from dotenv import load_dotenv
 
-class BaseConfig(object):
-    FLASK_DEBUG = True
-    TESTING = False
-    SQLALCHEMY_DATABASE_URI = "sqlite:///blog.db"
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = "xk@(!uj(68$86abj_93uowhgo-5sosju&_x%6j=^xm*=v2!9kc"
-    WTF_CSRF_ENABLED = True
-    FLASK_ADMIN_SWATCH = "slate"
-    OPENAPI_URL_PREFIX = '/api/swagger'
-    OPENAPI_SWAGGER_UI_PATH = '/'
-    OPENAPI_SWAGGER_UI_VERSION = '3.1.6'
+load_dotenv()
+
+ENV = os.getenv('FLASK_ENV' or 'production')
+DEBUG = ENV == 'development'
 
 
-class DevConfig(BaseConfig):
-    DEBUG = True
-    # SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
+SECRET_KEY = os.getenv('SECRET_KEY')
 
+SQLALCHEMY_DATABASE_URI = os.getenv('DATEBASE_URI')
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-class TestingConfig(BaseConfig):
-    TESTING = True
+WTF_CSRF_ENABLED = True
 
+FLASK_ADMIN_SWATCH = "slate"
 
-class ProductionConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = "postgresql://user:password@localhost:5432/blog"
+OPENAPI_URL_PREFIX = '/api/swagger'
+OPENAPI_SWAGGER_UI_PATH = '/'
+OPENAPI_SWAGGER_UI_VERSION = '3.1.6'
