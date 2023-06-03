@@ -13,28 +13,23 @@ from blog.api import init_api
 
 
 def create_app() -> Flask:
+
     app = Flask(__name__)
 
-    cfg_name = os.environ.get("CONFIG_NAME") or "BaseConfig"
-    # cfg_name = os.environ.get("CONFIG_NAME") or "ProductionConfig"
+    cfg_name = os.environ.get("CONFIG_NAME") or "DevConfig"
     app.config.from_object(f"blog.config.{cfg_name}")
-    # app.config.from_pyfile('config.py')
-    # app.config.from_object(Config)
+    
+    register_extensions(app)
+    register_blueprints(app)
+    
+    return app
 
-    # app.config["SECRET_KEY"] = "xk@(!uj(68$86abj_93uowhgo-5sosju&_x%6j=^xm*=v2!9kc"
-    # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
-    # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
+def register_extensions(app):
     db.init_app(app)
     login_manager.init_app(app)
     admin_app.init_app(app)
     api = init_api(app)
-
-    register_blueprints(app)
     migrate = Migrate(app, db, compare_type=True)
-
-    return app
-
 
 def register_blueprints(app: Flask):
     app.register_blueprint(users_app)

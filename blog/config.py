@@ -2,7 +2,7 @@ import os
 
 
 class BaseConfig(object):
-    DEBUG = True
+    FLASK_DEBUG = True
     TESTING = False
     SQLALCHEMY_DATABASE_URI = "sqlite:///blog.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -11,12 +11,12 @@ class BaseConfig(object):
     FLASK_ADMIN_SWATCH = "slate"
     OPENAPI_URL_PREFIX = '/api/swagger'
     OPENAPI_SWAGGER_UI_PATH = '/'
-    OPENAPI_SWAGGER_UI_VERSION = '5.0.0-alpha.14'
+    OPENAPI_SWAGGER_UI_VERSION = '3.1.6'
 
 
 class DevConfig(BaseConfig):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
+    # SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
 
 
 class TestingConfig(BaseConfig):
