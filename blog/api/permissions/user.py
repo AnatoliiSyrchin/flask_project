@@ -21,7 +21,10 @@ class UserPermission(PermissionMixin):
     ]
 
     def patch_permission(self, *args, user_permission: PermissionUser = None, **kwargs) -> PermissionForPatch:
-        self.permission_for_patch.allow_columns = (self.PATCH_AVAILABLE_FIELDS, 10)
+        if current_user.is_staff:
+            self.permission_for_patch.allow_columns = (self.ALL_AVAILABLE_FIELDS, 10)    
+        else:
+            self.permission_for_patch.allow_columns = (self.PATCH_AVAILABLE_FIELDS, 10)
         return self.permission_for_patch
     
     def patch_data(self, *args, data: dict = None, obj: User = None, user_permission: PermissionUser = None, **kwargs) -> dict:

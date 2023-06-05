@@ -15,20 +15,22 @@ class ArticleSchema(Schema):
     created_at = fields.DateTime(allow_none=True)
     updated_at = fields.DateTime(allow_none=True)
 
-author = Relationship(
-    nested="AuthorSchema",
-    attribute="author",
-    related_view="author_detail",
-    related_view_kwargs={"id": "<id>"},
-    schema="AuthorSchema",
-    type_="author",
-    many=False,
-)
-tags = Relationship(
-    nested="TagSchema",
-    attribute="tags",
-    related_view="tag_detail",
-    related_view_kwargs={"id": "<id>"},
-    schema="TagSchema",
-    type_="tag",
-)
+    author = Relationship(
+        nested="AuthorSchema",
+        attribute="author",
+        related_view="author_detail",
+        related_view_kwargs={"id": "<id>"},
+        schema="AuthorSchema",
+        type_="author",
+        many=False,
+    )
+
+    tags = Relationship(
+        nested="TagSchema",
+        attribute="tags",
+        related_view="tag_detail",
+        related_view_kwargs={"id": "<id>"},
+        schema="TagSchema",
+        type_="tag",
+        many=True,
+    )

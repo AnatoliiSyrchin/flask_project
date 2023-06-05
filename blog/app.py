@@ -16,8 +16,7 @@ def create_app() -> Flask:
 
     app = Flask(__name__)
 
-    cfg_name = os.environ.get("CONFIG_NAME") or "DevConfig"
-    app.config.from_object(f"blog.config.{cfg_name}")
+    app.config.from_object("blog.config")
     
     register_extensions(app)
     register_blueprints(app)
